@@ -12,12 +12,12 @@ L.Indoor = L.Class.extend({
         // by default the levels are expected to be in the level attribute in
         // the feature properties, pass a replacement function in options if
         // this is not the case.
-        getLevel: function(feature) {
+        getLevel: function (feature) {
             return feature.properties.level;
         }
     },
 
-    initialize: function(data, options) {
+    initialize: function (data, options) {
         L.setOptions(this, options);
         options = this.options;
 
@@ -33,7 +33,7 @@ L.Indoor = L.Class.extend({
         if ("onEachFeature" in this.options)
             var onEachFeature = this.options.onEachFeature;
 
-        this.options.onEachFeature = function(feature, layer) {
+        this.options.onEachFeature = function (feature, layer) {
 
             if (onEachFeature)
                 onEachFeature(feature, layer);
@@ -41,7 +41,7 @@ L.Indoor = L.Class.extend({
             if ("markerForFeature" in options) {
                 var marker = options.markerForFeature(feature);
                 if (typeof(marker) !== 'undefined') {
-                    marker.on('click', function(e) {
+                    marker.on('click', function (e) {
                         layer.fire('click', e);
                     });
 
@@ -76,7 +76,9 @@ L.Indoor = L.Class.extend({
         var map = e.target;
 
         // check in case layer gets added and then removed before the map is ready
-        if (!map.hasLayer(this)) { return; }
+        if (!map.hasLayer(this)) {
+            return;
+        }
 
         this._map = map;
         this._zoomAnimated = map._zoomAnimated;
@@ -124,7 +126,7 @@ L.Indoor = L.Class.extend({
 
         this._map = null;
     },
-    addData: function(data) {
+    addData: function (data) {
         var layers = this._layers,
             options = this.options,
             features = L.Util.isArray(data) ? data : data.features;
@@ -149,7 +151,7 @@ L.Indoor = L.Class.extend({
 
             // if the feature is on mutiple levels
             if (L.Util.isArray(level)) {
-                level.forEach(function(level) {
+                level.forEach(function (level) {
                     if (level in layers) {
                         layer = layers[level];
                     } else {
@@ -175,13 +177,13 @@ L.Indoor = L.Class.extend({
             }
         });
     },
-    getLevels: function() {
+    getLevels: function () {
         return Object.keys(this._layers);
     },
-    getLevel: function() {
+    getLevel: function () {
         return this._level;
     },
-    setLevel: function(level) {
+    setLevel: function (level) {
         if (typeof(level) === 'object') {
             level = level.newLevel;
         }
@@ -205,22 +207,22 @@ L.Indoor = L.Class.extend({
         this._level = level;
     },
     resetStyle: function (layer) {
-      // reset any custom styles
-      layer.options = layer.defaultOptions;
-      this._setLayerStyle(layer, this.options.style);
-      return this;
+        // reset any custom styles
+        layer.options = layer.defaultOptions;
+        this._setLayerStyle(layer, this.options.style);
+        return this;
     },
     _setLayerStyle: function (layer, style) {
-      if (typeof style === 'function') {
-        style = style(layer.feature);
-      }
-      if (layer.setStyle) {
-        layer.setStyle(style);
-      }
+        if (typeof style === 'function') {
+            style = style(layer.feature);
+        }
+        if (layer.setStyle) {
+            layer.setStyle(style);
+        }
     }
 });
 
-L.indoor = function(data, options) {
+L.indoor = function (data, options) {
     return new L.Indoor(data, options);
 };
 
@@ -231,12 +233,12 @@ L.Control.Level = L.Control.extend({
         position: 'bottomright',
 
         // used to get a unique integer for each level to be used to order them
-        parseLevel: function(level) {
+        parseLevel: function (level) {
             return parseInt(level, 10);
         }
     },
 
-    initialize: function(options) {
+    initialize: function (options) {
         L.setOptions(this, options);
 
         this._map = null;
@@ -246,7 +248,7 @@ L.Control.Level = L.Control.extend({
 
         this.addEventListener("levelchange", this._levelChange, this);
     },
-    onAdd: function(map) {
+    onAdd: function (map) {
         var div = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
 
         div.style.font = "18px 'Lucida Console',Monaco,monospace";
@@ -257,7 +259,7 @@ L.Control.Level = L.Control.extend({
 
         var levels = [];
 
-        for (var i=0; i<this.options.levels.length; i++) {
+        for (var i = 0; i < this.options.levels.length; i++) {
             var level = this.options.levels[i];
 
             var levelNum = self.options.parseLevel(level);
@@ -268,24 +270,42 @@ L.Control.Level = L.Control.extend({
             });
         }
 
-        levels.sort(function(a, b) {
+        levels.sort(function (a, b) {
             return a.num - b.num;
         });
 
-        for (i=levels.length-1; i>=0; i--) {
+        for (i = levels.length - 1; i >= 0; i--) {
             var level = levels[i].num;
             var originalLevel = levels[i].label;
 
             var levelBtn = L.DomUtil.create('a', 'leaflet-button-part', div);
 
+
             if (level === activeLevel || originalLevel === activeLevel) {
-                levelBtn.style.backgroundColor = "#b0b0b0";
+                levelBtn.style.backgroundColor = "#37b853";
+                levelBtn.style.color = "white";
+                levelBtn.style.width = "50px";
+                levelBtn.style.height = "50px";
+                levelBtn.style.lineHeight = "50px";
+
+            } else {
+                levelBtn.style.backgroundColor = "white";
+                levelBtn.style.color = "black !important";
+                levelBtn.style.width = "30px";
+                levelBtn.style.height = "30px";
+                levelBtn.style.lineHeight = "30px";
+
             }
 
             levelBtn.appendChild(levelBtn.ownerDocument.createTextNode(originalLevel));
 
-            (function(level) {
-                levelBtn.onclick = function() {
+            if (i !== 0) {
+
+                var mySep = L.DomUtil.create('div', 'mySep', div);
+                $(levelBtn).parent()[0].append(mySep);
+            }
+            (function (level) {
+                levelBtn.onclick = function () {
                     self.setLevel(level);
                 };
             })(level);
@@ -295,14 +315,16 @@ L.Control.Level = L.Control.extend({
 
         return div;
     },
-    _levelChange: function(e) {
+    _levelChange: function (e) {
         if (this._map !== null) {
-            if (typeof e.oldLevel !== "undefined")
-                this._buttons[e.oldLevel].style.backgroundColor = "#FFFFFF";
-            this._buttons[e.newLevel].style.backgroundColor = "#b0b0b0";
+            if (typeof e.oldLevel !== "undefined") {
+                e.target._buttons[e.newLevel].className = "leaflet-button-part green";
+                e.target._buttons[e.oldLevel].className = "leaflet-button-part white";
+            }
+            e.target._buttons[e.newLevel].className = "leaflet-button-part green";
         }
     },
-    setLevel: function(level) {
+    setLevel: function (level) {
 
         if (level === this._level)
             return;
@@ -315,7 +337,7 @@ L.Control.Level = L.Control.extend({
             newLevel: level
         });
     },
-    getLevel: function() {
+    getLevel: function () {
         return this._level;
     }
 });

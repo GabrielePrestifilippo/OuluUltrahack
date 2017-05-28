@@ -556,9 +556,9 @@ L.Mixin.Events.fire = L.Mixin.Events.fireEvent;
 		}
 		div.setAttribute(startName, 'return;');
 
-		if (typeof div[startName] === 'function') {
+		//if (typeof div[startName] === 'function') {
 			supported = true;
-		}
+		//}
 
 		div.removeAttribute(startName);
 		div = null;

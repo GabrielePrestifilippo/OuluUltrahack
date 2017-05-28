@@ -248,6 +248,9 @@
 	width: 30px;
 	height: 30px;
 	line-height: 30px;
+	border-radius: 50%;
+	margin: auto;
+	color:black;
 	}
 
 
@@ -376,7 +379,7 @@
 	}
 .leaflet-touch .leaflet-control-layers,
 .leaflet-touch .leaflet-bar {
-	border: 2px solid rgba(0,0,0,0.2);
+
 	background-clip: padding-box;
 	}
 

@@ -1,3 +1,11 @@
+initApp();
+function initApp() {
+
+    var height=screen.height;
+    $("#map, #view3d").css("height",height-48);
+
+    console.log(navigator.compass);
+
 var osmUrl = '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     osm = new L.TileLayer(osmUrl, {
         maxZoom: 22,
@@ -6,7 +14,7 @@ var osmUrl = '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 
 var map = new L.Map('map', {
     layers: [osm],
-    center: new L.LatLng(45.499688842786, 9.230298207042001),
+    center: new L.LatLng(45.4999757, 9.2306066),
     zoom: 19
 });
 
@@ -53,6 +61,34 @@ var levelControl = new L.Control.Level({
 });
 
 
+var myIcon = L.icon({
+    iconUrl: 'image/marker.png',
+    iconSize: [60, 60],
+    iconAnchor: [30, 0]
+});
+
+var myMarker = L.marker([45.4999757, 9.2306066], {icon: myIcon}).addTo(map);
+var initialPosition;
+
+function onSuccess(position) {
+    if (!initialPosition) {
+        initialPosition = [position.coords.latitude, position.coords.longitude];
+    }
+
+    var diffLat = initialPosition[0] - position.coords.latitude;
+    var diffLng = initialPosition[1] - position.coords.longitude;
+    var newLat = 45.4999757 + diffLat;
+    var newLng = 9.2306066 + diffLng;
+    var newLatLng = new L.LatLng(newLat, newLng);
+    myMarker.setLatLng(newLatLng);
+}
+
+
+var watchId = navigator.geolocation.watchPosition(onSuccess,
+    function (e) {
+        console.log(e)
+    }, {maximumAge: 3000, timeout: 5000, enableHighAccuracy: true});
+
 function get3d(myJson, level) {
     osmb.each(function (p) {
         if (p.properties.level !== level) {
@@ -60,7 +96,9 @@ function get3d(myJson, level) {
         }
     });
     osmb.set(myJson);
+    osmb.date(new Date(2015, 15, 1, 10, 30));
 }
+
 function customListener(num) {
     indoorLayer.setLevel(num);
     get3d(GeoJSON, num.newLevel);
@@ -76,6 +114,7 @@ var osmb = new OSMBuildings(map);
 get3d(GeoJSON, 1);
 
 
+map.addControl(new L.Control.Compass());
 var viewer;
 
 
@@ -101,21 +140,22 @@ function initPanorama() {
         autoReticleSelect: true,	// Auto select a clickable target after dwellTime
         passiveRendering: false	// Render only when control triggered by user input
     });
-    panoList.forEach(function(p){
+    panoList.forEach(function (p) {
         viewer.add(p);
     })
 
 
 }
+
 function startPano(num) {
     $("#view3d").show();
     $("#map").hide();
 
     if (!initialized) {
         initPanorama();
-        initialized=1;
+        initialized = 1;
     }
-    viewer.setPanorama(panoList[num-1]);
+    viewer.setPanorama(panoList[num - 1]);
 
     $(".startMapButton").show();
 }
@@ -125,4 +165,50 @@ function startMap() {
     $("#map").show();
     $("#startPanoButton").show();
     $("#startMapButton").hide();
+}
+
+
+$("#search").click(function () {
+    var width = screen.width;
+    $("#searchBox").css("display", "block");
+    setTimeout(function () {
+        $("#searchBox").css("width", width - 10);
+    }, 1)
+
+});
+
+$(".searchMini").on("click", function () {
+    searchText();
+});
+
+
+$(".searchMini").on("keyup keydown", function (e) {
+    if (e.keyCode == 13) {
+        searchText();
+    }
+});
+
+function searchText() {
+    var inputText = $(".searchBox").val();
+
+    for (var key in indoorLayer._layers) {
+        indoorLayer._layers[key].eachLayer(function (f) {
+
+            if (f.feature.properties.info && f.feature.properties.info.indexOf(inputText) !== -1) {
+                var newLatLng = L.GeoJSON.coordsToLatLngs(f.feature.geometry.coordinates[0][0])[0];
+                map.setView(newLatLng);
+                f.openPopup();
+                return;
+            }
+            return;
+        });
+    }
+
+
+    $("#searchBox").css("width", 0);
+    setTimeout(function () {
+        $("#searchBox").css("display", "none");
+    }, 300)
+}
+
 }
