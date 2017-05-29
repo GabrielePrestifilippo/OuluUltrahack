@@ -250,10 +250,16 @@
 	line-height: 30px;
 	border-radius: 50%;
 	margin: auto;
-	color:black;
+	color: #37b853;
 	}
 
-
+a.leaflet-control-zoom-out {
+	margin-top: 5px !important;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.65);
+}
+a.leaflet-control-zoom-in {
+	box-shadow: 0 1px 3px rgba(0,0,0,0.65);
+}
 /* zoom control */
 
 .leaflet-control-zoom-in,

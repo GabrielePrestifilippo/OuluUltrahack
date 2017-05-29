@@ -5,15 +5,18 @@
     <link rel="stylesheet" href="css/leaflet.css"/>
     <link rel="stylesheet" href="css/main.css"/>
     <link rel="stylesheet" href="css/leaflet-compass.css"/>
-
+    <link rel="stylesheet" href="css/tabbar.css"/>
     <script src="js/external/jquery.min.js"></script>
     <script src="js/external/leaflet-src.js"></script>
     <script src="js/external/leaflet-indoor.js"></script>
+    <script src="js/external/tabbar.min.js"></script>
     <script src="js/data.js"></script>
     <script src="js/external/OSMBuildings-Leaflet.js"></script>
     <script src="js/external/three.min.js"></script>
     <script src="js/external/panolens.min.js"></script>
     <script src="js/external/leaflet-compass.js"></script>
+    <script src="js/external/leaflet-position.js"></script>
+    <script src='js/external/fastclick.js'></script>
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -23,9 +26,14 @@
     <title>Hello World</title>
 </head>
 
-
-</head>
 <body>
+<script>
+    if ('addEventListener' in document) {
+        document.addEventListener('DOMContentLoaded', function () {
+            FastClick.attach(document.body);
+        }, false);
+    }
+</script>
 <div id="header">
 
     <div id="titleName">MyHospital</div>
@@ -36,11 +44,81 @@
         <input class="searchBox" type="search">
     </div>
 </div>
-<div id="map"></div>
-<div id="view3d"></div>
 
 
-<button class="hoverButton startMapButton" onclick="startMap()">Map</button>
+<div id="page_home" class="page">
+    <div id="map"></div>
+
+    <div id="view3d"></div>
+
+
+    <button class="hoverButton startMapButton" onclick="startMap()">Map</button>
+
+</div>
+<div id="page_about" class="page">
+    <h2>About</h2>
+
+</div>
+
+<div id="page_media" class="page">
+    <h2>Media</h2>
+
+</div>
+
+
+<!--TAB-BAR-->
+<div id="tab_bar">
+</div>
+
+
+<script type="text/javascript">
+    (function () {
+
+        //Initialize the tabbar
+        var tabbar = new AppTabBar.Tabbar('tab_bar', {
+            button_height: 60
+        });
+
+        tabbar.init();
+
+        //Add tabs
+        var home = tabbar.addTab('  <i class="fa fa-home"></i>', '', {
+            events: {
+                selected: function () {
+                    document.getElementById('page_about').style.display = 'none';
+                    document.getElementById('page_media').style.display = 'none';
+                    document.getElementById('page_home').style.display = 'block';
+                }
+            }
+        });
+
+        var pages = tabbar.addTab('  <i class="fa fa-picture-o"></i>', '', {
+            events: {
+                selected: function () {
+                    document.getElementById('page_home').style.display = 'none';
+                    document.getElementById('page_about').style.display = 'block';
+                    document.getElementById('page_media').style.display = 'none';
+                }
+            }
+        });
+
+        var media = tabbar.addTab('  <i class="fa fa-search"></i>', '', {
+            events: {
+                selected: function () {
+                    document.getElementById('page_home').style.display = 'none';
+                    document.getElementById('page_about').style.display = 'none';
+                    document.getElementById('page_media').style.display = 'block';
+                }
+            }
+        });
+
+        tabbar.render();
+
+        tabbar.selectTab(home);
+
+    })();
+</script>
+
 
 <script type="text/javascript" src="cordova.js"></script>
 <script type="text/javascript" src="js/index.js"></script>

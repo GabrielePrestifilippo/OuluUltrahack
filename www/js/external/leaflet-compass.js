@@ -62,6 +62,13 @@ L.Control.Compass = L.Control.extend({
 		this._button.href = '#';
 
 		this._icon = L.DomUtil.create('div', 'compass-icon', this._button);
+
+        var iconB = L.DomUtil.create('i', 'fa fa-compass', this._button);
+
+        $(this._icon).append(iconB);
+
+
+
 		this._digit = L.DomUtil.create('span', 'compass-digit', this._button);
 
 		this._alert = L.DomUtil.create('div', 'compass-alert', container);
