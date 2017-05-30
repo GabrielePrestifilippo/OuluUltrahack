@@ -1,8 +1,51 @@
 initApp();
 function initApp() {
 
+    //Initialize the tabbar
+    var tabbar = new AppTabBar.Tabbar('tab_bar', {
+        button_height: 60
+    });
+
+    tabbar.init();
+
+    //Add tabs
+    var homePage = tabbar.addTab('  <i class="fa fa-home"></i>', '', {
+        events: {
+            selected: function () {
+                document.getElementById('page_info').style.display = 'none';
+                document.getElementById('page_media').style.display = 'none';
+                document.getElementById('page_home').style.display = 'block';
+            }
+        }
+    });
+
+    var mediaPage = tabbar.addTab('  <i class="fa fa-picture-o"></i>', '', {
+        events: {
+            selected: function () {
+                document.getElementById('page_home').style.display = 'none';
+                document.getElementById('page_media').style.display = 'block';
+                document.getElementById('page_info').style.display = 'none';
+            }
+        }
+    });
+
+    var infoPage = tabbar.addTab('  <i class="fa fa-search"></i>', '', {
+        events: {
+            selected: function () {
+                document.getElementById('page_home').style.display = 'none';
+                document.getElementById('page_media').style.display = 'none';
+                document.getElementById('page_info').style.display = 'block';
+            }
+        }
+    });
+
+    tabbar.render();
+
+    tabbar.selectTab(homePage);
+
+
     var height = screen.height;
-    $("#map, #view3d").css("height", height - 48 -50);
+    $("#map, #view3d").css("height", height - 48 - 50);
 
     console.log(navigator.compass);
 
@@ -99,6 +142,20 @@ function initApp() {
         osmb.date(new Date(2015, 15, 1, 10, 30));
     }
 
+    function populateMediaList() {
+        var myDiv = "";
+        GeoJSON.features.forEach(function (f) {
+            if (f.properties.info) {
+                myDiv += `<div class="listBox" style="background-image: url('image/preview/` + f.properties.preview + `.jpg')">
+                <div class="nameMedia">` + f.properties.info + `</div>
+                    </div>`;
+            }
+        });
+        $("#mediaList").append(myDiv);
+    }
+
+    populateMediaList();
+
     function customListener(num) {
         indoorLayer.setLevel(num);
         get3d(GeoJSON, num.newLevel);
@@ -150,8 +207,9 @@ function initApp() {
 
     function startPano(num) {
         $("#view3d").show();
-        $("#map").hide();
-
+        $(".backButton").show();
+        $("#mediaList").hide();
+        tabbar.selectTab(mediaPage);
         if (!initialized) {
             initPanorama();
             initialized = 1;
@@ -160,23 +218,6 @@ function initApp() {
 
         $(".startMapButton").show();
     }
-
-    function startMap() {
-        $("#view3d").hide();
-        $("#map").show();
-        $("#startPanoButton").show();
-        $("#startMapButton").hide();
-    }
-
-
-    $("#search").click(function () {
-        var width = screen.width;
-        $("#searchBox").css("display", "block");
-        setTimeout(function () {
-            $("#searchBox").css("width", width - 10);
-        }, 1)
-
-    });
 
 
     $(".searchMini").on("click", function () {
@@ -201,12 +242,20 @@ function initApp() {
                     var newLatLng = L.GeoJSON.coordsToLatLngs(f.feature.geometry.coordinates[0][0])[0];
                     map.setView(newLatLng);
                     f.openPopup();
+                    closeSearch();
                     return;
                 }
                 return;
+
             });
         }
 
+        function closeSearch() {
+            $(".searchBar").css("width", "1px");
+            setTimeout(function () {
+                $(".searchBar").css("display", "none");
+            }, 250)
+        }
 
         $("#searchBox").css("width", 0);
         setTimeout(function () {
@@ -215,3 +264,19 @@ function initApp() {
     }
 
 }
+function hidePano() {
+    $("#view3d").hide();
+    $("#startMapButton").hide();
+    $(".backButton").hide();
+    $("#mediaList").show();
+}
+
+
+$(".search").click(function () {
+    var width = screen.width;
+    $(".searchBar").css("display", "block");
+    setTimeout(function () {
+        $(".searchBar").css("width", width - 10);
+    }, 1)
+
+});
