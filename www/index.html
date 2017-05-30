@@ -34,34 +34,41 @@
         }, false);
     }
 </script>
-<div id="header">
-
-    <div id="titleName">MyHospital</div>
-    <div id="search"><i class="fa fa-search"></i>
-    </div>
-    <div id="searchBox">
-        <i class="fa fa-search searchMini"></i>
-        <input class="searchBox" type="search">
-    </div>
-</div>
 
 
 <div id="page_home" class="page">
+    <div class="header">
+        <div class="titleName">MyHospital</div>
+        <div class="search"><i class="fa fa-search"></i>
+        </div>
+        <div class="searchBar">
+            <i class="fa fa-search searchMini"></i>
+            <input class="searchBox" type="search">
+        </div>
+    </div>
+
     <div id="map"></div>
 
+
+</div>
+<div id="page_media" class="page">
+    <div class="header">
+        <div class="titleName">MyHospital</div>
+        <div class="backButton"><i onclick="hidePano()" class="fa fa-chevron-left"></i>
+        </div>
+
+    </div>
+    <div id="mediaList"></div>
     <div id="view3d"></div>
 
-
-    <button class="hoverButton startMapButton" onclick="startMap()">Map</button>
-
-</div>
-<div id="page_about" class="page">
-    <h2>About</h2>
-
 </div>
 
-<div id="page_media" class="page">
-    <h2>Media</h2>
+
+<div id="page_info" class="page">
+    <div class="header">
+        <div class="titleName">MyHospital</div>
+
+    </div>
 
 </div>
 
@@ -69,55 +76,6 @@
 <!--TAB-BAR-->
 <div id="tab_bar">
 </div>
-
-
-<script type="text/javascript">
-    (function () {
-
-        //Initialize the tabbar
-        var tabbar = new AppTabBar.Tabbar('tab_bar', {
-            button_height: 60
-        });
-
-        tabbar.init();
-
-        //Add tabs
-        var home = tabbar.addTab('  <i class="fa fa-home"></i>', '', {
-            events: {
-                selected: function () {
-                    document.getElementById('page_about').style.display = 'none';
-                    document.getElementById('page_media').style.display = 'none';
-                    document.getElementById('page_home').style.display = 'block';
-                }
-            }
-        });
-
-        var pages = tabbar.addTab('  <i class="fa fa-picture-o"></i>', '', {
-            events: {
-                selected: function () {
-                    document.getElementById('page_home').style.display = 'none';
-                    document.getElementById('page_about').style.display = 'block';
-                    document.getElementById('page_media').style.display = 'none';
-                }
-            }
-        });
-
-        var media = tabbar.addTab('  <i class="fa fa-search"></i>', '', {
-            events: {
-                selected: function () {
-                    document.getElementById('page_home').style.display = 'none';
-                    document.getElementById('page_about').style.display = 'none';
-                    document.getElementById('page_media').style.display = 'block';
-                }
-            }
-        });
-
-        tabbar.render();
-
-        tabbar.selectTab(home);
-
-    })();
-</script>
 
 
 <script type="text/javascript" src="cordova.js"></script>

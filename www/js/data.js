@@ -15,7 +15,8 @@ var GeoJSON = {
                 "color": null,
                 "height": null,
                 "view": 1,
-                "info":"room"
+                "info":"room",
+                "preview":"room1"
             },
             "geometry": {
                 "type": "MultiPolygon",
@@ -838,7 +839,9 @@ var GeoJSON = {
                 "id": "room",
                 "color": null,
                 "height": null,
-                "view": 2
+                "view": 2,
+                "info":"info2",
+                "preview":"equirectangular"
             },
             "geometry": {
                 "type": "MultiPolygon",

@@ -45,14 +45,15 @@ div#view3d {
     right: 100px;
 }
 
-#header {
+.header {
     width: 100%;
     height: 50px;
     background-color: #37b853;
-
+    position: fixed;
+    top: 0;
 }
 
-#search {
+.search {
     width: 20%;
     float: left;
     text-align: center;
@@ -62,7 +63,22 @@ div#view3d {
     font-size: 22px;
 }
 
-#titleName {
+.backButton {
+    width: 20%;
+    float: left;
+    text-align: center;
+    color: white;
+    padding-top: 10px;
+    position: absolute;
+    font-size: 22px;
+    display: none;
+}
+
+.page {
+    margin-top: 50px;
+}
+
+.titleName {
 
     padding-top: 10px;
     width: 100%;
@@ -89,7 +105,7 @@ div#view3d {
     z-index: 999;
     transition: all 0.3s;
     font-family: sans-serif;
-    box-shadow: 0 1px 7px rgba(0,0,0,0.65);
+    box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
 }
 
 .white {
@@ -115,19 +131,6 @@ div#view3d {
     margin-top: -2px;
 }
 
-#searchBox {
-
-    background-color: white;
-    float: left;
-    position: absolute;
-    transition: all 0.2s;
-    width: 0px;
-    margin: 5px;
-    border-radius: 8px;
-    height: 40px;
-    display: none;
-}
-
 .searchMini {
     float: left;
     color: #454545;
@@ -143,32 +146,55 @@ div#view3d {
     outline-width: 0;
 }
 
+.searchBar {
+    background-color: white;
+    float: left;
+    position: absolute;
+    transition: all 0.2s;
+    width: 0px;
+    margin: 5px;
+    border-radius: 8px;
+    height: 40px;
+    display: none;
+}
+
+.listBox {
+    height: 70px;
+    text-align: center;
+    line-height: 70px;
+    font-size: 22px;
+    color: white;
+    background-size: cover;
+    background-position-y: 50%;
+}
 
 .leaflet-control.leaflet-position {
-    position:relative;
-    float:left;
-    color:#1978cf;
+    position: relative;
+    float: left;
+    color: #1978cf;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     border-radius: 4px;
     /*background-color: rgba(0, 0, 0, 0.25);*/
     background-color: rgba(255, 255, 255, 1);
     /*background: none;*/
-    box-shadow: 0 1px 7px rgba(0,0,0,0.65);
-    margin-left:10px;
-    margin-top:10px;
+    box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
+    margin-left: 10px;
+    margin-top: 10px;
     width: 32px;
     height: 32px;
 
     bottom: 45px;
 }
+
 .leaflet-position .position-button {
-    display:block;
-    float:left;
-    width:36px;
-    height:36px;
-    border-radius:4px;
+    display: block;
+    float: left;
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
 }
+
 .leaflet-position .position-button.active {
     background: #fff;
 }
