@@ -168,6 +168,19 @@ div#view3d {
     background-position-y: 50%;
 }
 
+.listBoxInfo {
+    height: 70px;
+    line-height: 70px;
+    font-family: sans-serif;
+    font-size: 18px;
+    padding-left: 10px;
+    text-align: left;
+    color: #373737;
+    background-size: cover;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid #d3d3d3;
+}
+
 .leaflet-control.leaflet-position {
     position: relative;
     float: left;

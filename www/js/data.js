@@ -16,6 +16,7 @@ var GeoJSON = {
                 "height": null,
                 "view": 1,
                 "info":"room",
+                "description":"description1",
                 "preview":"room1"
             },
             "geometry": {

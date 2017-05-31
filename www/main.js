@@ -146,15 +146,66 @@ function initApp() {
         var myDiv = "";
         GeoJSON.features.forEach(function (f) {
             if (f.properties.info) {
-                myDiv += `<div class="listBox" style="background-image: url('image/preview/` + f.properties.preview + `.jpg')">
+                myDiv += `<div class="listBox" panoId="` + f.properties.view + `" style="background-image: url('image/preview/` + f.properties.preview + `.jpg')">
                 <div class="nameMedia">` + f.properties.info + `</div>
                     </div>`;
             }
         });
         $("#mediaList").append(myDiv);
+
+        $(".listBox").click(function () {
+            var id = $(this).attr("panoId");
+            startPano(id);
+        });
     }
 
     populateMediaList();
+
+    function populateInfoList() {
+        var myDiv = "";
+
+
+        for (var key in indoorLayer._layers) {
+            indoorLayer._layers[key].eachLayer(function (f) {
+                if (f.feature.geometry.coordinates[0]) {
+                    var coords = L.GeoJSON.coordsToLatLngs(f.feature.geometry.coordinates[0][0])[0];
+                    var lat = coords.lat;
+                    var lng = coords.lng;
+                    var i = f.feature.properties.info ? f.feature.properties.info : "";
+                    var d = f.feature.properties.description ? f.feature.properties.description : "";
+                    myDiv += `<div class="listBoxInfo" lat="` + lat + `" lng="` + lng + `" level="` + f.feature.properties.level + `">
+                   <div class="nameInfo">` + i + ` ` + d + `</div>
+                   </div>`;
+                }
+            });
+        }
+
+
+        $("#infoList").append(myDiv);
+
+        $(".listBoxInfo").click(function () {
+            var id = $(this).attr("level");
+            var lat = $(this).attr("lat");
+            var lng = $(this).attr("lng");
+            tabbar.selectTab(homePage);
+            indoorLayer.setLevel(id);
+            var coords = new L.LatLng(lat, lng);
+            var myIcon = L.icon({
+                iconUrl: 'image/marker.png',
+                iconSize: [60, 60],
+                iconAnchor: [30, 0]
+            });
+
+            var myMarker = L.marker([lat, lng], {icon: myIcon}).addTo(map);
+            setTimeout(function () {
+                map.removeLayer(myMarker);
+            }, 500);
+            map.setView(coords);
+        });
+
+    }
+
+    populateInfoList();
 
     function customListener(num) {
         indoorLayer.setLevel(num);
