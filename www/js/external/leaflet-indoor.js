@@ -282,7 +282,7 @@ L.Control.Level = L.Control.extend({
 
 
             if (level === activeLevel || originalLevel === activeLevel) {
-                levelBtn.style.backgroundColor = "#37b853";
+                levelBtn.style.backgroundColor = "#80bc3d";
                 levelBtn.style.color = "white";
                 levelBtn.style.width = "50px";
                 levelBtn.style.height = "50px";

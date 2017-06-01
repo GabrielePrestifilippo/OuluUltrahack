@@ -1,4 +1,5 @@
 initApp();
+var p;
 function initApp() {
 
     //Initialize the tabbar
@@ -173,7 +174,7 @@ function initApp() {
                     var lng = coords.lng;
                     var i = f.feature.properties.info ? f.feature.properties.info : "";
                     var d = f.feature.properties.description ? f.feature.properties.description : "";
-                    myDiv += `<div class="listBoxInfo" lat="` + lat + `" lng="` + lng + `" level="` + f.feature.properties.level + `">
+                    myDiv += `<div class="listBoxInfo" info="` + f.feature.properties.info + `" lat="` + lat + `" lng="` + lng + `" level="` + f.feature.properties.level + `">
                    <div class="nameInfo">` + i + ` ` + d + `</div>
                    </div>`;
                 }
@@ -187,20 +188,23 @@ function initApp() {
             var id = $(this).attr("level");
             var lat = $(this).attr("lat");
             var lng = $(this).attr("lng");
+            var i = $(this).attr("info");
             tabbar.selectTab(homePage);
             indoorLayer.setLevel(id);
             var coords = new L.LatLng(lat, lng);
             var myIcon = L.icon({
-                iconUrl: 'image/marker.png',
-                iconSize: [60, 60],
-                iconAnchor: [30, 0]
+                iconUrl: 'image/position.png',
+                iconSize: [50, 74],
+                iconAnchor: [25, 74],
+                popupAnchor: [0, -74]
             });
 
             var myMarker = L.marker([lat, lng], {icon: myIcon}).addTo(map);
             setTimeout(function () {
                 map.removeLayer(myMarker);
-            }, 500);
+            }, 3500);
             map.setView(coords);
+            myMarker.bindPopup(i).openPopup();
         });
 
     }
@@ -232,8 +236,18 @@ function initApp() {
     var initialized = 0;
 
     function initPanorama() {
+
+
         imagesList.forEach(function (p, i) {
-            panoList.push(new PANOLENS.ImagePanorama("image/" + imagesList[i]));
+            var pano = new PANOLENS.ImagePanorama("image/" + imagesList[i]);
+
+
+            var title = new PANOLENS.SpriteText( 'PANOLENS.JS ', 430 );
+            title.rotation.y = Math.PI;
+            title.scale.multiplyScalar( 5 );
+            title.position.set( 0, 50, -100 );
+            pano.add(title);
+            panoList.push(pano);
         });
         var view3d = document.getElementById("view3d");
         viewer = new PANOLENS.Viewer({

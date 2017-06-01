@@ -48,7 +48,7 @@ div#view3d {
 .header {
     width: 100%;
     height: 50px;
-    background-color: #37b853;
+    background-color: #80bc3d;
     position: fixed;
     top: 0;
 }
@@ -80,7 +80,6 @@ div#view3d {
 
 .titleName {
 
-    padding-top: 10px;
     width: 100%;
     float: left;
     position: relative;
@@ -90,12 +89,17 @@ div#view3d {
     font-weight: 400;
 }
 
+.titleName img {
+    max-height: 40px;
+    padding-top: 5px;
+}
+
 .leaflet-control-attribution.leaflet-control {
     opacity: 0.2;
 }
 
 .green {
-    background-color: #37b853 !important;
+    background-color: #80bc3d !important;
     color: white !important;
     width: 50px !important;
     height: 50px !important;
@@ -218,5 +222,5 @@ div#view3d {
     font-size: 32px;
     text-align: center;
     line-height: 32px;
-    color: #37b853;
+    color: #80bc3d;
 }

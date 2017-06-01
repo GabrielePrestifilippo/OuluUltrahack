@@ -94,6 +94,6 @@ div.navigationBar div.navBtnCtn button:first-child {
 }
 
 div.navigationBar div.navBtnCtn.active button {
-    background-color: #37b853;
+    background-color: #80bc3d;
     color: #FFF;
 }
