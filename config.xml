@@ -18,15 +18,18 @@
     <allow-intent href="geo:*" />
     <platform name="android">
         <allow-intent href="market:*" />
-        <splash density="port-hdpi" src="res/screen/android/hdpi.png" />
-        <splash density="port-ldpi" src="res/screen/android/hdpi.png" />
-        <splash density="port-mdpi" src="res/screen/android/hdpi.png" />
-        <splash density="port-xhdpi" src="res/screen/android/hdpi.png" />
+        <splash density="port-hdpi" src="res/screen/android/xxhdpi.png" />
+        <splash density="port-ldpi" src="res/screen/android/xxhdpi.png" />
+        <splash density="port-mdpi" src="res/screen/android/xxhdpi.png" />
+        <splash density="port-xhdpi" src="res/screen/android/xxhdpi.png" />
+        <splash density="port-xxhdpi" src="res/screen/android/xxhdpi.png" />
         <icon density="ldpi" src="res/android/hdpi.png" />
         <icon density="mdpi" src="res/android/mdpi.png" />
         <icon density="hdpi" src="res/android/hdpi.png" />
         <icon density="xhdpi" src="res/android/xhdpi.png" />
     </platform>
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
     <engine name="android" spec="~6.2.3" />
     <plugin name="cordova-plugin-crosswalk-webview" spec="^2.3.0">
         <variable name="XWALK_VERSION" value="23+" />
@@ -38,5 +41,6 @@
     <plugin name="cordova-plugin-device-orientation" spec="~1.0.7" />
     <plugin name="cordova-plugin-geolocation" spec="~2.4.3" />
     <plugin name="cordova-plugin-splashscreen" spec="~4.0.3" />
+    <plugin name="cordova-plugin-statusbar" spec="^2.2.3" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
 </widget>
