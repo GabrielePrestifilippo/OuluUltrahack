@@ -7,6 +7,10 @@ function initApp() {
         button_height: 60
     });
 
+    setTimeout(function() {
+        navigator.splashscreen.hide();
+    }, 6000);
+
     tabbar.init();
 
     //Add tabs
@@ -48,9 +52,9 @@ function initApp() {
     var height = screen.height;
     $("#map, #view3d").css("height", height - 48 - 50);
 
-    console.log(navigator.compass);
 
-    var osmUrl = '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+
+    var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         osm = new L.TileLayer(osmUrl, {
             maxZoom: 22,
             attribution: "Map data &copy; OpenStreetMap contributors"
@@ -147,9 +151,10 @@ function initApp() {
         var myDiv = "";
         GeoJSON.features.forEach(function (f) {
             if (f.properties.info) {
-                myDiv += `<div class="listBox" panoId="` + f.properties.view + `" style="background-image: url('image/preview/` + f.properties.preview + `.jpg')">
-                <div class="nameMedia">` + f.properties.info + `</div>
-                    </div>`;
+                myDiv += '<div class="listBox" panoId="' + f.properties.view;
+                myDiv+='" style="background-image: url(image/preview/';
+                myDiv+= f.properties.preview + '.jpg)"><div class="nameMedia">';
+                myDiv+= f.properties.info + '</div></div>';
             }
         });
         $("#mediaList").append(myDiv);
@@ -174,9 +179,11 @@ function initApp() {
                     var lng = coords.lng;
                     var i = f.feature.properties.info ? f.feature.properties.info : "";
                     var d = f.feature.properties.description ? f.feature.properties.description : "";
-                    myDiv += `<div class="listBoxInfo" info="` + f.feature.properties.info + `" lat="` + lat + `" lng="` + lng + `" level="` + f.feature.properties.level + `">
-                   <div class="nameInfo">` + i + ` ` + d + `</div>
-                   </div>`;
+                    myDiv += '<div class="listBoxInfo" info="';
+                    myDiv +=  f.feature.properties.info;
+                    myDiv +=  '" lat="' + lat + '" lng="' + lng + '" level="' + f.feature.properties.level + '">';
+                    myDiv +='<div class="nameInfo">' + i + ' ' + d + '</div> </div>';
+
                 }
             });
         }

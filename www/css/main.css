@@ -224,3 +224,7 @@ div#view3d {
     line-height: 32px;
     color: #80bc3d;
 }
+
+.leaflet-bottom.leaflet-right,.leaflet-bottom.leaflet-left  {
+    bottom: 60px;
+}

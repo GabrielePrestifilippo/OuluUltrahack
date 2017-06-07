@@ -302,7 +302,7 @@ L.Control.Level = L.Control.extend({
             if (i !== 0) {
 
                 var mySep = L.DomUtil.create('div', 'mySep', div);
-                $(levelBtn).parent()[0].append(mySep);
+                levelBtn.parentElement.appendChild(mySep);
             }
             (function (level) {
                 levelBtn.onclick = function () {
