@@ -51,6 +51,7 @@ div#view3d {
     background-color: #80bc3d;
     position: fixed;
     top: 0;
+    z-index: 999999;
 }
 
 .search {
@@ -75,7 +76,7 @@ div#view3d {
 }
 
 .page {
-    margin-top: 50px;
+    padding-top: 50px;
 }
 
 .titleName {
@@ -225,6 +226,12 @@ div#view3d {
     color: #80bc3d;
 }
 
-.leaflet-bottom.leaflet-right,.leaflet-bottom.leaflet-left  {
-    bottom: 60px;
+
+
+a.leaflet-button-part, a.leaflet-control-zoom-in, a.leaflet-control-zoom-out, a.leaflet-button-part.green,a.leaflet-button-part.white {
+    outline: 0;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important;
+    -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important;
+    outline: none !important;
 }

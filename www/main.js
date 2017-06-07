@@ -1,4 +1,4 @@
-initApp();
+//initApp();
 var p;
 function initApp() {
 
@@ -7,9 +7,11 @@ function initApp() {
         button_height: 60
     });
 
-    setTimeout(function() {
-        navigator.splashscreen.hide();
-    }, 6000);
+    setTimeout(function () {
+        if (navigator && navigator.splashscreen) {
+            navigator.splashscreen.hide();
+        }
+    }, 2000);
 
     tabbar.init();
 
@@ -49,9 +51,9 @@ function initApp() {
     tabbar.selectTab(homePage);
 
 
-    var height = screen.height;
-    $("#map, #view3d").css("height", height - 48 - 50);
+    var height = window.innerHeight;
 
+    $("#map, #view3d").css("height", height - 50 - 50 +24);
 
 
     var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -152,9 +154,9 @@ function initApp() {
         GeoJSON.features.forEach(function (f) {
             if (f.properties.info) {
                 myDiv += '<div class="listBox" panoId="' + f.properties.view;
-                myDiv+='" style="background-image: url(image/preview/';
-                myDiv+= f.properties.preview + '.jpg)"><div class="nameMedia">';
-                myDiv+= f.properties.info + '</div></div>';
+                myDiv += '" style="background-image: url(image/preview/';
+                myDiv += f.properties.preview + '.jpg)"><div class="nameMedia">';
+                myDiv += f.properties.info + '</div></div>';
             }
         });
         $("#mediaList").append(myDiv);
@@ -180,9 +182,9 @@ function initApp() {
                     var i = f.feature.properties.info ? f.feature.properties.info : "";
                     var d = f.feature.properties.description ? f.feature.properties.description : "";
                     myDiv += '<div class="listBoxInfo" info="';
-                    myDiv +=  f.feature.properties.info;
-                    myDiv +=  '" lat="' + lat + '" lng="' + lng + '" level="' + f.feature.properties.level + '">';
-                    myDiv +='<div class="nameInfo">' + i + ' ' + d + '</div> </div>';
+                    myDiv += f.feature.properties.info;
+                    myDiv += '" lat="' + lat + '" lng="' + lng + '" level="' + f.feature.properties.level + '">';
+                    myDiv += '<div class="nameInfo">' + i + ' ' + d + '</div> </div>';
 
                 }
             });
@@ -249,10 +251,10 @@ function initApp() {
             var pano = new PANOLENS.ImagePanorama("image/" + imagesList[i]);
 
 
-            var title = new PANOLENS.SpriteText( 'PANOLENS.JS ', 430 );
+            var title = new PANOLENS.SpriteText('PANOLENS.JS ', 430);
             title.rotation.y = Math.PI;
-            title.scale.multiplyScalar( 5 );
-            title.position.set( 0, 50, -100 );
+            title.scale.multiplyScalar(5);
+            title.position.set(0, 50, -100);
             pano.add(title);
             panoList.push(pano);
         });

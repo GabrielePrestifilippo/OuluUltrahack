@@ -265,7 +265,7 @@ a.leaflet-control-zoom-in {
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out {
 	font: bold 18px 'Lucida Console', Monaco, monospace;
-	text-indent: 1px;
+	/*text-indent: 1px;*/
 	}
 .leaflet-control-zoom-out {
 	font-size: 20px;
