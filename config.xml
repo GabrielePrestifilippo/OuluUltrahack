@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ospimap.gisdevio" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>OspiMap</name>
+<widget id="com.gisdevio.tellusmap" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>TellusMap</name>
     <description>
-       Indoor Mapping
+       Indoor Mapping of the Tellus Innovation Arena
     </description>
     <author email="gabriele.prestifilippo@gmail.com">
         Gabriele Prestifilippo
