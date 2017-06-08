@@ -53,7 +53,7 @@ function initApp() {
 
     var height = window.innerHeight;
 
-    $("#map, #view3d").css("height", height - 50 - 50 +24);
+    $("#map, #view3d").css("height", height - 50 - 50 + 24);
 
 
     var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -240,22 +240,42 @@ function initApp() {
     var viewer;
 
 
-    var imagesList = ["equirectangular.jpg", "room1.jpg"];
+    var imagesList = [
+            {
+                img: "equirectangular.jpg",
+                position: {
+                    x: 3957.4,
+                    y: -744.48,
+                    z: 2956.61
+                },
+                content: "Spot1"
+            }, {
+                img: "room1.jpg",
+                position: {
+                    x: 20,
+                    y: 30,
+                    z: 10
+                },
+                content: "Spot1"
+            }
+        ]
+        ;
     var panoList = [];
     var initialized = 0;
 
     function initPanorama() {
-
-
         imagesList.forEach(function (p, i) {
-            var pano = new PANOLENS.ImagePanorama("image/" + imagesList[i]);
+            var pano = new PANOLENS.ImagePanorama("image/" + imagesList[i].img);
 
-
-            var title = new PANOLENS.SpriteText('PANOLENS.JS ', 430);
-            title.rotation.y = Math.PI;
-            title.scale.multiplyScalar(5);
-            title.position.set(0, 50, -100);
-            pano.add(title);
+            var infospot = new PANOLENS.Infospot(350, PANOLENS.DataImage.Info);
+            infospot.position.set(imagesList[i].position.x, imagesList[i].position.y, imagesList[i].position.z);
+            infospot.addHoverText(imagesList[i].content);
+            /*
+             infospot2 = new PANOLENS.Infospot(350, '');
+             infospot2.position.set(-4720.82, -1606.57, -224.71);
+             infospot2.addHoverElement(document.getElementById('desc-container'));
+             */
+            pano.add(infospot);
             panoList.push(pano);
         });
         var view3d = document.getElementById("view3d");
