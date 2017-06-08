@@ -226,7 +226,17 @@ div#view3d {
     color: #80bc3d;
 }
 
+.hoverInfo{
+    background-color: white;
+    border-radius: 4px;
+    padding:20px;
+    color: #303030;
+}
 
+.hoverInfo img{
+    max-width: 60%;
+    max-height: 60%;
+}
 
 a.leaflet-button-part, a.leaflet-control-zoom-in, a.leaflet-control-zoom-out, a.leaflet-button-part.green,a.leaflet-button-part.white {
     outline: 0;

@@ -1,4 +1,4 @@
-//initApp();
+initApp();
 var p;
 function initApp() {
 
@@ -243,20 +243,17 @@ function initApp() {
     var imagesList = [
             {
                 img: "equirectangular.jpg",
-                position: {
-                    x: 3957.4,
-                    y: -744.48,
-                    z: 2956.61
-                },
-                content: "Spot1"
+                position: [3957.4,-744.48, 2000],
+                link: [-3682.3, -1321.65, -2657.09],
+
+                content: "Spot1",
+                image: "marker.png"
             }, {
                 img: "room1.jpg",
-                position: {
-                    x: 20,
-                    y: 30,
-                    z: 10
-                },
-                content: "Spot1"
+                position: [4000,-767.48, 2000],
+                link: [476.79, -1072.92, -5402.55 ],
+                content: "Spot1",
+                image: "marker.png"
             }
         ]
         ;
@@ -266,15 +263,15 @@ function initApp() {
     function initPanorama() {
         imagesList.forEach(function (p, i) {
             var pano = new PANOLENS.ImagePanorama("image/" + imagesList[i].img);
-
+            pano.position.set(imagesList[i].link[0], imagesList[i].link[1], imagesList[i].link[2]);
             var infospot = new PANOLENS.Infospot(350, PANOLENS.DataImage.Info);
-            infospot.position.set(imagesList[i].position.x, imagesList[i].position.y, imagesList[i].position.z);
-            infospot.addHoverText(imagesList[i].content);
-            /*
-             infospot2 = new PANOLENS.Infospot(350, '');
-             infospot2.position.set(-4720.82, -1606.57, -224.71);
-             infospot2.addHoverElement(document.getElementById('desc-container'));
-             */
+            infospot.position.set(imagesList[i].position[0], imagesList[i].position[1], imagesList[i].position[2]);
+
+            var myDiv = document.createElement("div");
+            var myDivText = "<div id='myDivInfo" + i + "' class='hoverInfo'>";
+            myDivText += imagesList[i].content + "<br><img src='image/" + imagesList[i].image + "'></div>";
+            myDiv.innerHTML = myDivText;
+            infospot.addHoverElement(myDiv);
             pano.add(infospot);
             panoList.push(pano);
         });
@@ -292,8 +289,12 @@ function initApp() {
             autoReticleSelect: true,	// Auto select a clickable target after dwellTime
             passiveRendering: false	// Render only when control triggered by user input
         });
-        panoList.forEach(function (p) {
+        panoList.forEach(function (p, i) {
+
             viewer.add(p);
+            if (i < panoList.length - 1) {
+                p.link(panoList[i + 1]);
+            }
         })
 
 
@@ -327,6 +328,7 @@ function initApp() {
 
 
     function searchText() {
+        var found = 0;
         var inputText = $(".searchBox").val();
 
         for (var key in indoorLayer._layers) {
@@ -337,27 +339,30 @@ function initApp() {
                     map.setView(newLatLng);
                     f.openPopup();
                     closeSearch();
+                    found = 1;
                     return;
                 }
                 return;
-
             });
         }
-
-        function closeSearch() {
-            $(".searchBar").css("width", "1px");
-            setTimeout(function () {
-                $(".searchBar").css("display", "none");
-            }, 250)
+        if (!found) {
+            alert("Not found")
         }
-
-        $("#searchBox").css("width", 0);
-        setTimeout(function () {
-            $("#searchBox").css("display", "none");
-        }, 300);
     }
-
 }
+function closeSearch() {
+    $(".searchBar").css("width", "1px");
+    setTimeout(function () {
+        $(".searchBar").css("display", "none");
+    }, 250)
+}
+
+$("#searchBox").css("width", 0);
+setTimeout(function () {
+    $("#searchBox").css("display", "none");
+}, 300);
+
+
 function hidePano() {
     $("#view3d").hide();
     $("#startMapButton").hide();
