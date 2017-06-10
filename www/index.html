@@ -16,6 +16,9 @@
     <script src="js/external/panolens.js"></script>
     <script src="js/external/leaflet-compass.js"></script>
     <script src="js/external/leaflet-position.js"></script>
+    <script src="js/external/pathfinder.js"></script>
+    <script src="js/external/leaflet-knn.min.js"></script>
+    <script src="js/external/leaflet.label.js"></script>
     <script src='js/external/fastclick.js'></script>
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
@@ -79,8 +82,14 @@
 
 
 <script type="text/javascript" src="cordova.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
-<script src="main.js"></script>
+<script type="text/javascript" src="js/require.js"></script>
+<script>
+    require.config({ baseUrl: "js" });
+    require(['index'], function (app) {
+        app.initialize();
+    });
+</script>
+
 <div style="display:none"id="infoSpot">
 
 </div>
