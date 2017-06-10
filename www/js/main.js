@@ -216,7 +216,7 @@ define(function (require) {
         function populateMediaList() {
             var myDiv = "";
             GeoJSON.features.forEach(function (f) {
-                if (f.properties.info) {
+                if (f.properties.info && f.properties.preview) {
                     if (f.properties.id !== "wall") {
                         myDiv += '<div class="listBox" panoId="' + f.properties.view;
                         myDiv += '" style="background-image: url(image/preview/';
@@ -323,32 +323,32 @@ define(function (require) {
                     position: [4000, -767.48, 2000],
                     link: [476.79, -1072.92, -5402.55],
                     content: "Mentoring",
-                    image: "image/marker.png"
+                  //  image: "image/marker.png"
                 }, {
                     img: "hacking.mp4",
                     position: [4000, -767.48, 2000],
                     link: [476.79, -1072.92, -5402.55],
                     content: "Hacking",
-                    image: "image/marker.png"
+                  //  image: "image/marker.png"
                 }, {
                     img: "room1.jpg",
                     position: [4000, -767.48, 2000],
                     link: [476.79, -1072.92, -5402.55],
                     content: "Cafe",
-                    image: "image/marker.png"
+                  //  image: "image/marker.png"
                 }, {
                     img: "stage.jpg",
                     position: [3957.4, -744.48, 2000],
                     link: [-3682.3, -1321.65, -2657.09],
                     content: "Stage",
-                    image: "image/marker.png"
+                   // image: "image/marker.png"
                 },
                 {
                     img: "entrance.mp4",
                     position: [3957.4, -744.48, 2000],
                     link: [-3682.3, -1321.65, -2657.09],
                     content: "Entrance",
-                    image: "image/marker.png"
+                   // image: "image/marker.png"
                 }
             ]
         ;

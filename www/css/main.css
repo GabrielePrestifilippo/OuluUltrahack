@@ -145,6 +145,14 @@ div#view3d {
     margin: auto;
     margin-top: -2px;
 }
+.nameMedia {
+    color: white;
+    text-shadow: 2px 2px 3px rgb(0, 0, 0);
+    font-size: 24px;
+    font-weight: 900;
+    background-color: rgba(0, 0, 0, 0.48);
+    text-transform: uppercase;
+}
 
 .searchMini {
     float: left;
@@ -172,9 +180,13 @@ div#view3d {
     height: 40px;
     display: none;
 }
-
+.leaflet-control-attribution.leaflet-control {
+    pointer-events: none;
+    cursor: default;
+}
 .listBox {
     height: 70px;
+    border-bottom: 1px solid white;
     text-align: center;
     line-height: 70px;
     font-size: 22px;
