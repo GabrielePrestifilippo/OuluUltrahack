@@ -86,6 +86,7 @@ div#view3d {
 
 .page {
     padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 .titleName {
@@ -247,7 +248,7 @@ div#view3d {
     max-height: 60%;
 }
 
-a.leaflet-button-part, a.leaflet-control-zoom-in, a.leaflet-control-zoom-out, a.leaflet-button-part.green,a.leaflet-button-part.white {
+a.leaflet-button-part,.startNaviButton ,a.leaflet-control-zoom-in, a.leaflet-control-zoom-out, a.leaflet-button-part.green,a.leaflet-button-part.white {
     outline: 0;
     user-select: none;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important;
@@ -257,4 +258,6 @@ a.leaflet-button-part, a.leaflet-control-zoom-in, a.leaflet-control-zoom-out, a.
 
 span.my-div-span {
     color: white;
+    font-family: monospace;
+    font-weight: 600;
 }

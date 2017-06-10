@@ -81,15 +81,16 @@ define(function (require) {
 
             onEachFeature: function (feature, layer) {
 
-                if (feature.properties.view) {
+                if (feature.properties.id) {
                     var poly = getOuter(feature.geometry.coordinates);
                     var center = getCentroid(poly);
 
+                    if (feature.properties.view) {
+                        var container = $('<div><p>' + feature.properties.id + '</p><Button class="startPanoButton">Panorama</Button><br><br><Button class="startNaviButton">Go here</Button></div>');
+                    } else {
+                        var container = $('<div><p>' + feature.properties.id + '</p><p></p><p></p><p></p><Button class="startNaviButton">Go here</Button></div>');
 
-
-
-                    var container = $('<div><p>'+feature.properties.id+'</p><Button class="startPanoButton">Panorama</Button><br><br><Button class="startNaviButton">Go here</Button></div>');
-
+                    }
                     container[0].children[1].addEventListener('click', function () {
                         startPano(feature.properties.view);
                     });
@@ -115,10 +116,10 @@ define(function (require) {
 
 
                     });
-                    var m=layer.bindPopup(container[0]);
+                    var m = layer.bindPopup(container[0]);
 
 
-                    function onClick(){
+                    function onClick() {
                         m.openPopup();
                     }
 
@@ -160,12 +161,12 @@ define(function (require) {
 
         indoorLayer.setLevel("1");
 
-        map.on('zoomend', function() {
+        map.on('zoomend', function () {
             var currentZoom = map.getZoom();
-            if(currentZoom<19){
-                currentZoom=10;
+            if (currentZoom < 16) {
+                currentZoom = 8;
             }
-           $(".my-div-span").css("font-size",currentZoom-10);
+            $(".my-div-span").css("font-size", currentZoom - 8);
         });
 
         var levelControl = new L.Control.Level({
@@ -216,10 +217,12 @@ define(function (require) {
             var myDiv = "";
             GeoJSON.features.forEach(function (f) {
                 if (f.properties.info) {
-                    myDiv += '<div class="listBox" panoId="' + f.properties.view;
-                    myDiv += '" style="background-image: url(image/preview/';
-                    myDiv += f.properties.preview + '.jpg)"><div class="nameMedia">';
-                    myDiv += f.properties.info + '</div></div>';
+                    if (f.properties.id !== "wall") {
+                        myDiv += '<div class="listBox" panoId="' + f.properties.view;
+                        myDiv += '" style="background-image: url(image/preview/';
+                        myDiv += f.properties.preview + '.jpg)"><div class="nameMedia">';
+                        myDiv += f.properties.info + '</div></div>';
+                    }
                 }
 
                 var pos = getPosition(f.geometry.coordinates);
@@ -242,7 +245,7 @@ define(function (require) {
             for (var key in indoorLayer._layers) {
                 indoorLayer._layers[key].eachLayer(function (f) {
                     if (f.feature.geometry.coordinates[0]) {
-                        if (f.feature.properties.info !== "wall") {
+                        if (f.feature.properties.id !== "wall") {
                             var coords = getPosition(f.feature.geometry.coordinates);
                             var lat = coords[1];
                             var lng = coords[0];
@@ -270,9 +273,9 @@ define(function (require) {
                 var coords = new L.LatLng(lat, lng);
                 var myIcon = L.icon({
                     iconUrl: 'image/position.png',
-                    iconSize: [50, 74],
-                    iconAnchor: [25, 74],
-                    popupAnchor: [0, -74]
+                    iconSize: [38, 41],
+                    iconAnchor: [14, 31],
+                    popupAnchor: [0, -31]
                 });
 
                 var myMarker = L.marker([lat, lng], {icon: myIcon}).addTo(map);
@@ -315,18 +318,36 @@ define(function (require) {
 
 
         var imagesList = [
-                {
-                    img: "equirectangular.jpg",
-                    position: [3957.4, -744.48, 2000],
-                    link: [-3682.3, -1321.65, -2657.09],
-
-                    content: "Spot1",
+                , {
+                    img: "mentoring.mp4",
+                    position: [4000, -767.48, 2000],
+                    link: [476.79, -1072.92, -5402.55],
+                    content: "Mentoring",
+                    image: "image/marker.png"
+                }, {
+                    img: "hacking.mp4",
+                    position: [4000, -767.48, 2000],
+                    link: [476.79, -1072.92, -5402.55],
+                    content: "Hacking",
                     image: "image/marker.png"
                 }, {
                     img: "room1.jpg",
                     position: [4000, -767.48, 2000],
                     link: [476.79, -1072.92, -5402.55],
-                    content: "Spot1",
+                    content: "Cafe",
+                    image: "image/marker.png"
+                }, {
+                    img: "stage.jpg",
+                    position: [3957.4, -744.48, 2000],
+                    link: [-3682.3, -1321.65, -2657.09],
+                    content: "Stage",
+                    image: "image/marker.png"
+                },
+                {
+                    img: "entrance.mp4",
+                    position: [3957.4, -744.48, 2000],
+                    link: [-3682.3, -1321.65, -2657.09],
+                    content: "Entrance",
                     image: "image/marker.png"
                 }
             ]
@@ -337,6 +358,9 @@ define(function (require) {
         function initPanorama() {
             imagesList.forEach(function (p, i) {
                 var pano = new PANOLENS.ImagePanorama("image/" + imagesList[i].img);
+                if (i == 5 || i == 1 || i == 2) {
+                    pano = new PANOLENS.VideoPanorama("image/" + imagesList[i].img, {autoplay: true});
+                }
                 pano.position.set(imagesList[i].link[0], imagesList[i].link[1], imagesList[i].link[2]);
                 var infospot = new PANOLENS.Infospot(350, PANOLENS.DataImage.Info);
                 infospot.position.set(imagesList[i].position[0], imagesList[i].position[1], imagesList[i].position[2]);
@@ -403,12 +427,12 @@ define(function (require) {
 
         function searchText() {
             var found = 0;
-            var inputText = $(".searchBox").val();
+            var inputText = $(".searchBox").val().toUpperCase();
 
             for (var key in indoorLayer._layers) {
                 indoorLayer._layers[key].eachLayer(function (f) {
 
-                    if (f.feature.properties.info && f.feature.properties.info.indexOf(inputText) !== -1) {
+                    if (f.feature.properties.info && f.feature.properties.info.toUpperCase().indexOf(inputText) !== -1) {
                         var coords = getPosition(f.feature.geometry.coordinates);
                         var poly = getOuter(f.feature.geometry.coordinates);
                         var center = getCentroid(poly);
